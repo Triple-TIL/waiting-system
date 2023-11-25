@@ -46,7 +46,7 @@ public class IndexController {
         ResponseEntity<AllowedUserResponse> response = restTemplate.getForEntity(uri, AllowedUserResponse.class);
 
         if(response.getBody() == null || !response.getBody().allowed()) {
-            return "redirect:http://127.0.0.1:9010:waiting-room?user_id=%dredirect_url=%s".formatted(
+            return "redirect:http://127.0.0.1:9091/waiting-room?user_id=%d&redirect_url=%s".formatted(
                     userId, "http://127.0.0.1:9000?user_id=%d".formatted(userId));
         }
 

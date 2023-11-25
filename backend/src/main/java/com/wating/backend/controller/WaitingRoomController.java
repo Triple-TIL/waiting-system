@@ -16,7 +16,7 @@ public class WaitingRoomController {
     private final UserQueueService userQueueService;
 
 
-    @GetMapping("/wating-room")
+    @GetMapping("/waiting-room")
     Mono<Rendering> waitingRoomPage(@RequestParam(name = "queue", defaultValue = "default") String queue,
                                     @RequestParam(name = "user_id") Long userId,
                                     @RequestParam(name = "redirect_url") String redirectUrl,
@@ -26,7 +26,7 @@ public class WaitingRoomController {
         var cookieValue = exchange.getRequest().getCookies().getFirst(key);
         var token = (cookieValue == null) ? "" : cookieValue.getValue();
 
-        return userQueueService.isAllowedByToken(queue, userId, token)
+        return userQueueService.isAllowed(queue, userId)
                 .filter(allowed -> allowed)
                 .flatMap(allowed -> Mono.just(Rendering.redirectTo(redirectUrl).build()))
                 .switchIfEmpty(
